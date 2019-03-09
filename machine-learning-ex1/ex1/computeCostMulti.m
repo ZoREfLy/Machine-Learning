@@ -13,10 +13,7 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
-for i = 1:m
-    J = 1 / (2 * m) * (X * theta - y)' * (X * theta - y);
-end
-
+J = 1 / (2 * m) * (X * theta - y)' * (X * theta - y);
 
 % =========================================================================
 
