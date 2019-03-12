@@ -15,11 +15,13 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+h = sigmoid(X * theta);
 
+mask_one = h >= 0.5;
+mask_zero = h < 0.5;
 
-
-
-
+p(mask_one) = 1;
+p(mask_zero) = 0;
 
 % =========================================================================
 
