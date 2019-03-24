@@ -61,27 +61,31 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+a1 = [ones(m, 1) X];
+z2 = a1 * Theta1';
+a2 = [ones(m, 1) sigmoid(z2)];
+z3 = a2 * Theta2';
+h = sigmoid(z3);
 
+y = repmat([1:num_labels], m, 1) == repmat(y, 1, num_labels);
 
+J = -(1 / m) * sum(sum(y .* log(h) + (1 - y) .* log(1 - h))); % without regularization
+J = J + lambda / (2 * m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2))); % with regularization
 
+sigma3 = h - y;
+sigma2 = sigma3 * Theta2 .* sigmoidGradient([ones(m, 1) z2]);
+sigma2 = sigma2(:, 2:end);
 
+delta2 = sigma3' * a2;
+delta1 = sigma2' * a1;
 
+% regulaization partial
+r2 = (lambda / m) * [zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
+r1 = (lambda / m) * [zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
+Theta2_grad = delta2 ./ m + r2;
+Theta1_grad = delta1 ./ m + r1;
+ 
 % =========================================================================
 
 % Unroll gradients
